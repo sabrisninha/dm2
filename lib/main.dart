@@ -16,6 +16,7 @@ class PaginaInicial extends StatelessWidget {
         '/': (context) => Home(),
         '/contador': (context) => Contador(),
         '/curtir': (context) => Curtir(),
+        '/cadastrar': (context) => Cadastrar(),
       },
     );
   }
@@ -56,7 +57,20 @@ class Home extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, '/curtir');
             },
-          )
+            
+          ),
+            ListTile(
+            leading: Icon(
+              Icons.calculate,
+              size: 36,
+            ),
+            title: Text("Cadastrar"),
+            subtitle: Text("Exemplo de Incremento e Decremento"),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.pushNamed(context, '/cadastrar');
+            },
+          ),
         ],
       ),
     );
@@ -79,36 +93,39 @@ class _CurtirState extends State<Curtir> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 152, 36, 36),
-          title: Text("Curtir"),
-        ),
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            x.toString(),
-          ),
-          IconButton(
-            iconSize: 60,
-            icon: curtiu == true
-                ? Icon(Icons.favorite, color: Colors.red)
-                : Icon(
-                    Icons.favorite_outline,
-                    color: Colors.black,
-                  ),
-            onPressed: () {
-              setState(() {
-                curtiu =true;
-                x = x + 1;
-              });
-            },
-            // icon: Icon(
-            //   curtiu == true ? Icons.favorite : Icons.favorite_outline,
-            //   color: curtiu == true ? Colors.red : Colors.black,
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 152, 36, 36),
+        title: Text("Curtir"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              x.toString(),
             ),
-          ),
-        ])));
+            IconButton(
+              iconSize: 60,
+              icon: curtiu == true
+                  ? Icon(Icons.favorite, color: Colors.red)
+                  : Icon(
+                      Icons.favorite_outline,
+                      color: Colors.black,
+                    ),
+              onPressed: () {
+                setState(() {
+                  curtiu = true;
+                  x = x + 1;
+                });
+              },
+              // icon: Icon(
+              //   curtiu == true ? Icons.favorite : Icons.favorite_outline,
+              //   color: curtiu == true ? Colors.red : Colors.black,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -161,6 +178,26 @@ class _ContadorState extends State<Contador> {
   }
 }
 
+
+class Cadastrar extends StatefulWidget {
+  const Cadastrar({super.key});
+
+  @override
+  State<Cadastrar> createState() => _CadastrarState();
+}
+
+class _CadastrarState extends State<Cadastrar> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 152, 36, 36),
+        title: Text("Cadastrar"),
+      ),
+      
+    );
+  }
+}
 //pergunta pra prova: existem dois tipos de widget, quais sao? statelesswidget (sem estado) e statefullwidget (com estado)
 //estado é a possibilidade de mudança da interface representado por uma variavel
 //oq é um widget
