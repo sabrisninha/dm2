@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Curtir extends StatefulWidget {
   const Curtir({super.key});
@@ -8,28 +11,60 @@ class Curtir extends StatefulWidget {
 }
 
 class _CurtirState extends State<Curtir> {
-  // uma variável declarada que vai controlar o estado
   bool curtiu = false;
+  int n = 0;
+  @override
+  void initState() {
+    super.initState();
+    obtemValor(); // le da memoria hora que abre a pagina
+  }
+
+  void obtemValor() async {
+    // busca um valor da memoria persistente
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      n = prefs.getInt('curtir') ?? 0;
+      curtiu = prefs.getBool('curtiu') ?? false;
+    });
+  }
+
+  void salvaValor(int valor, bool c) async {
+    //salva um valor na memoria persistente
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('curtir', valor);
+    prefs.setBool('curtiu', c);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 157, 6, 6),
         title: Text("Curtir"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "Curtiu $n vezes",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+              ),
+            ),
             IconButton(
-              iconSize: 128,
+              iconSize: 70,
               icon: curtiu == true
-                  ? Icon(Icons.favorite, color: Colors.pink)
+                  ? Icon(Icons.favorite,
+                      color: const Color.fromARGB(255, 148, 13, 4))
                   : Icon(Icons.favorite_outline, color: Colors.black),
               onPressed: () {
                 setState(() {
-                  curtiu = true;
+                  n = n + 1;
+                  curtiu = !curtiu;
                 });
+                salvaValor(n, curtiu); // manda persistir o valor de x
               },
             ),
           ],
